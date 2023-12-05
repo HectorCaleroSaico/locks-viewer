@@ -3,6 +3,7 @@ require('dotenv').config()
 module.exports = {
     serverConfig: {
         port: process.env.PORT || 3000,
+        timeInterval: parseInt(process.env.TIME_INTERVAL) || 5000
     },
     databaseConfig: {
         user: process.env.USER_DB,

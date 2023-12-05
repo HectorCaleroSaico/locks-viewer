@@ -1,8 +1,7 @@
 const { request, response } = require('express')
-const jwt = require('jsonwebtoken')
 const { executeStoreProcedure, executeStoreProcedureKill, executeStoreProcedureReport } = require('../database/executeQuery')
 const { sp_get_locks, sp_kill_locks, sp_get_report_locks } = require('../database/storeProcedures')
-const { authenticationConfig } = require('../config')
+const { serverConfig } = require('../config')
 
 const getLocksData = async (req = request, res = response) => {
 
@@ -67,8 +66,25 @@ const killLock = async (req = request, res = response) => {
 
 }
 
+const getInterval = async (req = request, res = response) => {
+
+    const isSessionValid = req?.isSessionValid ? req?.isSessionValid : false
+
+    res.json({
+        endpointDescription: 'POST - API: Visor de Bloqueos',
+        data: {
+            result: {
+                intervalRefresh: serverConfig.timeInterval,
+                isSessionValid
+            }
+        }
+    })
+
+}
+
 module.exports = {
     getLocksData,
     killLock,
-    getLocksReport
+    getLocksReport,
+    getInterval
 }
